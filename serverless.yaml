@@ -1,0 +1,238 @@
+service: lopes-market-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    MONGO_URI: mongodb+srv://fullstack:fullstack@fullstack.lhqrvew.mongodb.net/?retryWrites=true&w=majority&appName=Fullstack
+
+functions:
+  api:
+    handler: server.handler
+    events:
+      # User Registration (POST /register)
+      - http:
+          path: /users/register
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # User Login (POST /login)
+      - http:
+          path: /users/login
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # Get Current User 
+      - http:
+          path: /current-user
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # Get User by Email (GET /users/{email})
+      - http:
+          path: /users/{email}
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # Get Items in Cart (GET /users/{email}/cart)
+      - http:
+          path: /users/{email}/cart
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # Add Item to Cart (PUT /users/{email}/cart)
+      - http:
+          path: /users/{email}/cart
+          method: put
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # Delete Item from Cart (DELETE /users/{email}/cart/{id})
+      - http:
+          path: /users/{email}/cart/{id}
+          method: delete
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # Prefetch CORS routes
+      - http:
+          path: /register
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      - http:
+          path: /login
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # GET all products
+      - http:
+          path: /products
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # POST a new product
+      - http:
+          path: /products
+          method: post
+
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # GET a specific product by ID
+      - http:
+          path: /products/{id}
+          method: get
+          integration: lambda
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # PUT a product by ID
+      - http:
+          path: /products/{id}
+          method: put
+          integration: lambda
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+
+      # DELETE a product by ID
+      - http:
+          path: /products/{id}
+          method: delete
+          integration: lambda
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+      # PREFLIGHT
+      - http:
+          path: /products
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+          authorizationType: NONE
+      - http:
+          path: /products/{id}
+          integration: lambda
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+            allowCredentials: false
+          authorizationType: NONE
+      
