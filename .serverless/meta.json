@@ -1,6 +1,6 @@
 {
   "C:\\git\\LopesMarketAPI\\serverless.yaml": {
-    "versionFramework": "4.9.1",
+    "versionFramework": "4.12.0",
     "servicePath": "C:\\git\\LopesMarketAPI\\serverless.yaml",
     "serviceConfigFileName": "serverless.yaml",
     "service": {
@@ -107,7 +107,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-258cfb1f-3b37",
-                  "S3Key": "serverless/lopes-market-api/dev/1742935554218-2025-03-25T20:45:54.218Z/lopes-market-api.zip"
+                  "S3Key": "serverless/lopes-market-api/dev/1744671879630-2025-04-14T23:04:39.630Z/lopes-market-api.zip"
                 },
                 "Handler": "server.handler",
                 "Runtime": "nodejs18.x",
@@ -130,14 +130,14 @@
                 "ApiLogGroup"
               ]
             },
-            "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw": {
+            "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "ApiLambdaFunction"
                 },
-                "CodeSha256": "guD5LHUuUuTBdH8yJWEyVKhkD2Ot5eyeTL4SBpMkDDs="
+                "CodeSha256": "ChLbajXLnalXQ4L/44L9M6pdgpBifKDv0z4VSaq6yrY="
               }
             },
             "ApiGatewayRestApi": {
@@ -1965,7 +1965,7 @@
                 "ApiLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1742935544863": {
+            "ApiGatewayDeployment1744671859412": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -2050,7 +2050,7 @@
             "ApiLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw"
+                "Ref": "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk"
               },
               "Export": {
                 "Name": "sls-lopes-market-api-dev-ApiLambdaFunctionQualifiedArn"
@@ -2597,7 +2597,7 @@
           "timeout": 6,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw"
+          "versionLogicalId": "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk"
         }
       }
     },
@@ -2703,7 +2703,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-258cfb1f-3b37",
-                "S3Key": "serverless/lopes-market-api/dev/1742935554218-2025-03-25T20:45:54.218Z/lopes-market-api.zip"
+                "S3Key": "serverless/lopes-market-api/dev/1744671879630-2025-04-14T23:04:39.630Z/lopes-market-api.zip"
               },
               "Handler": "server.handler",
               "Runtime": "nodejs18.x",
@@ -2726,14 +2726,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw": {
+          "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "guD5LHUuUuTBdH8yJWEyVKhkD2Ot5eyeTL4SBpMkDDs="
+              "CodeSha256": "ChLbajXLnalXQ4L/44L9M6pdgpBifKDv0z4VSaq6yrY="
             }
           },
           "ApiGatewayRestApi": {
@@ -4561,7 +4561,7 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1742935544863": {
+          "ApiGatewayDeployment1744671859412": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -4646,7 +4646,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw"
+              "Ref": "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk"
             },
             "Export": {
               "Name": "sls-lopes-market-api-dev-ApiLambdaFunctionQualifiedArn"
@@ -4704,12 +4704,12 @@
     "serviceProviderAwsCfStackName": "lopes-market-api-dev",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:103030085908:stack/lopes-market-api-dev/5d5173e0-024a-11f0-9d6f-1220fac53045",
     "serviceProviderAwsCfStackCreated": "2025-03-16T09:38:06.608Z",
-    "serviceProviderAwsCfStackUpdated": "2025-03-25T20:42:37.905Z",
+    "serviceProviderAwsCfStackUpdated": "2025-04-05T19:49:23.801Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "ApiLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:103030085908:function:lopes-market-api-dev-api:42",
+        "OutputValue": "arn:aws:lambda:us-east-1:103030085908:function:lopes-market-api-dev-api:45",
         "Description": "Current Lambda function version",
         "ExportName": "sls-lopes-market-api-dev-ApiLambdaFunctionQualifiedArn"
       },
@@ -4818,7 +4818,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-258cfb1f-3b37",
-              "S3Key": "serverless/lopes-market-api/dev/1742935554218-2025-03-25T20:45:54.218Z/lopes-market-api.zip"
+              "S3Key": "serverless/lopes-market-api/dev/1744671879630-2025-04-14T23:04:39.630Z/lopes-market-api.zip"
             },
             "Handler": "server.handler",
             "Runtime": "nodejs18.x",
@@ -4841,14 +4841,14 @@
             "ApiLogGroup"
           ]
         },
-        "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw": {
+        "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "ApiLambdaFunction"
             },
-            "CodeSha256": "guD5LHUuUuTBdH8yJWEyVKhkD2Ot5eyeTL4SBpMkDDs="
+            "CodeSha256": "ChLbajXLnalXQ4L/44L9M6pdgpBifKDv0z4VSaq6yrY="
           }
         },
         "ApiGatewayRestApi": {
@@ -6676,7 +6676,7 @@
             "ApiLambdaPermissionApiGateway"
           ]
         },
-        "ApiGatewayDeployment1742935544863": {
+        "ApiGatewayDeployment1744671859412": {
           "Type": "AWS::ApiGateway::Deployment",
           "Properties": {
             "RestApiId": {
@@ -6761,7 +6761,7 @@
         "ApiLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw"
+            "Ref": "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk"
           },
           "Export": {
             "Name": "sls-lopes-market-api-dev-ApiLambdaFunctionQualifiedArn"

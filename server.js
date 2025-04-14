@@ -34,6 +34,19 @@ exports.handler = async (event) => {
     // Request Logging
     console.log("Incoming request:", { method, path, body: event.body }); 
 
+    // Preflight CORS handling
+    if (method === "OPTIONS") {
+      return {
+        statusCode: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+        body: "",
+      };
+    }
+
     // User Registration (POST /register)
     if (method === "POST" && path.includes("/register")) {
       const { email, password } = JSON.parse(event.body);

@@ -1,60 +1,66 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
-const { ObjectId } = require('mongodb');
+require("dotenv").config();
+const { ObjectId } = require("mongodb");
+const logger = require("./logger");
 
 // Register User
 async function registerUser(db, email, password) {
-  const usersCollection = db.collection("users");
+  logger.info("registerUser: START");
 
-  // Check if the user already exists
+  const usersCollection = db.collection("users");
   const existingUser = await usersCollection.findOne({ email });
+
   if (existingUser) {
+    logger.warn(`registerUser: User already exists - ${email}`);
     throw new Error("User already exists");
   }
 
-  // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Insert the new user
   const result = await usersCollection.insertOne({
     email,
     password: hashedPassword,
     cart: [],
     mod: false,
   });
+
+  logger.info(`registerUser: SUCCESS - User registered with ID ${result.insertedId}`);
   return result.insertedId;
 }
 
 // Login User
 async function loginUser(db, email, password) {
-  const usersCollection = db.collection("users");
+  logger.info("loginUser: START");
 
-  // Find user by email
+  const usersCollection = db.collection("users");
   const user = await usersCollection.findOne({ email });
+
   if (!user) {
+    logger.warn(`loginUser: User not found - ${email}`);
     throw new Error("User not found");
   }
 
-  // Compare passwords
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
+    logger.warn("loginUser: Invalid password attempt");
     throw new Error("Invalid password");
   }
 
-  // Generate JWT token
   const token = jwt.sign({ email: user.email, mod: user.mod }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
 
+  logger.info(`loginUser: SUCCESS - Token generated for ${email}`);
   return token;
 }
 
 // Gets active user
 async function getCurrentUser(event, db) {
+  logger.info("getCurrentUser: START");
+
   const token = event.headers.Authorization || event.headers.authorization;
-  
   if (!token) {
+    logger.warn("getCurrentUser: No token provided");
     return { statusCode: 401, body: JSON.stringify({ message: "No token provided" }) };
   }
 
@@ -64,119 +70,104 @@ async function getCurrentUser(event, db) {
     const user = await usersCollection.findOne({ email: decoded.email });
 
     if (!user) {
+      logger.warn(`getCurrentUser: User not found - ${decoded.email}`);
       return { statusCode: 404, body: JSON.stringify({ message: "User not found" }) };
     }
 
-    // Return user info
+    logger.info(`getCurrentUser: SUCCESS - Authenticated ${decoded.email}`);
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        email: user.email,
-        mod: user.mod || false,
-      }),
+      body: JSON.stringify({ email: user.email, mod: user.mod || false }),
     };
   } catch (error) {
+    logger.error(`getCurrentUser: Invalid token - ${error.message}`);
     return { statusCode: 401, body: JSON.stringify({ message: "Invalid token" }) };
   }
 }
 
 // Get User by Email
 async function getUserByEmail(db, email) {
+  logger.info(`getUserByEmail: Fetching user - ${email}`);
   const usersCollection = db.collection("users");
-  return await usersCollection.findOne({ email });
+  const user = await usersCollection.findOne({ email });
+  logger.info(`getUserByEmail: ${user ? "Found" : "Not found"} - ${email}`);
+  return user;
 }
 
 // Get Items in Cart
 async function getItemsInCart(db, email) {
+  logger.info(`getItemsInCart: START - ${email}`);
   const user = await getUserByEmail(db, email);
-  return user ? user.cart : [];
+  const cart = user ? user.cart : [];
+  logger.info(`getItemsInCart: END - ${cart.length} items`);
+  return cart;
 }
 
 // Add Item to Cart
 async function addItemToCart(db, email, productId) {
+  logger.info(`addItemToCart: START - email: ${email}, productId: ${productId}`);
+
   const usersCollection = db.collection("users");
   const productsCollection = db.collection("products");
   const user = await getUserByEmail(db, email);
 
   if (!user) {
+    logger.warn(`addItemToCart: User not found - ${email}`);
     throw new Error("User not found");
   }
-
-  console.log("Received productId:", productId);
 
   let product;
   try {
     product = await productsCollection.findOne({ _id: new ObjectId(productId) });
   } catch (error) {
-    console.error("Error converting productId:", error);
+    logger.error(`addItemToCart: Invalid productId format - ${productId}`);
     throw new Error("Invalid productId format");
   }
 
   if (!product) {
-    console.error("Product not found in database");
+    logger.warn(`addItemToCart: Product not found - ${productId}`);
     throw new Error("Product not found");
   }
 
-  console.log("Adding product to cart:", product);
+  logger.info(`addItemToCart: Adding product - ${product.name || productId}`);
   product.quantity = 1;
   user.cart.push(product);
 
   await usersCollection.updateOne({ email }, { $set: { cart: user.cart } });
 
+  logger.info(`addItemToCart: END - Cart updated for ${email}`);
   return user.cart;
 }
 
-// Get Items in Cart with Product Details
-async function getItemsInCart(db, email) {
-  const user = await getUserByEmail(db, email);
-  return user ? user.cart : []; // Directly return cart if it's storing full products
-}
-
+// Delete Item from Cart
 async function deleteItemFromCart(db, email, productId) {
+  logger.info(`deleteItemFromCart: START - email: ${email}, productId: ${productId}`);
+
   const usersCollection = db.collection("users");
   const user = await getUserByEmail(db, email);
 
   if (!user) {
+    logger.warn(`deleteItemFromCart: User not found - ${email}`);
     throw new Error("User not found");
   }
 
-  // Log the cart before attempting to remove the item
-  console.log("User's cart before deletion:", user.cart);
-  console.log("Product ID to delete:", productId);
-
-  // Convert productId to ObjectId before filtering
   const productObjectId = new ObjectId(productId);
+  const originalLength = user.cart.length;
 
-  // Remove item from cart by matching product _id
-  user.cart = user.cart.filter((item) => {
-    console.log("Checking item:", item._id); // Debugging line to see item ids
-    return item._id.toString() !== productObjectId.toString(); // Compare ObjectIds as strings
-  });
+  user.cart = user.cart.filter((item) => item._id.toString() !== productObjectId.toString());
 
-  // Log the updated cart after the deletion
-  console.log("User's cart after deletion:", user.cart);
-
-  // Proceed with the update
   const result = await usersCollection.updateOne({ email }, { $set: { cart: user.cart } });
 
-  // Check if any user was matched or modified
-  if (result.matchedCount === 0) {
-    throw new Error("No matching user found to update");
-  }
-
+  const updatedLength = user.cart.length;
   if (result.modifiedCount === 0) {
-    console.log("No updates were made to the cart. Cart may be unchanged.");
+    logger.info("deleteItemFromCart: No update made, item might not have existed.");
   } else {
-    console.log("Cart updated successfully.");
+    logger.info(`deleteItemFromCart: Removed item. Cart size: ${originalLength} → ${updatedLength}`);
   }
 
   return user.cart;
 }
 
-
-
-
-// Export all user functions
 module.exports = {
   registerUser,
   loginUser,

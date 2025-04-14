@@ -91,7 +91,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-258cfb1f-3b37",
-          "S3Key": "serverless/lopes-market-api/dev/1742935554218-2025-03-25T20:45:54.218Z/lopes-market-api.zip"
+          "S3Key": "serverless/lopes-market-api/dev/1744671879630-2025-04-14T23:04:39.630Z/lopes-market-api.zip"
         },
         "Handler": "server.handler",
         "Runtime": "nodejs18.x",
@@ -114,14 +114,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw": {
+    "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "guD5LHUuUuTBdH8yJWEyVKhkD2Ot5eyeTL4SBpMkDDs="
+        "CodeSha256": "ChLbajXLnalXQ4L/44L9M6pdgpBifKDv0z4VSaq6yrY="
       }
     },
     "ApiGatewayRestApi": {
@@ -1949,7 +1949,7 @@
         "ApiLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1742935544863": {
+    "ApiGatewayDeployment1744671859412": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -2034,7 +2034,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersion0JSqDPt040HZtZV1PiFzwCGmKsdXZNTMBdqgO2Woauw"
+        "Ref": "ApiLambdaVersioniRobOtNlSNbSfUcWhGJdSBsuABZglCjSPevMsjk"
       },
       "Export": {
         "Name": "sls-lopes-market-api-dev-ApiLambdaFunctionQualifiedArn"
